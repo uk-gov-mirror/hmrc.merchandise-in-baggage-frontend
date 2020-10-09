@@ -39,7 +39,7 @@ class PurchaseDetailsController @Inject()(
   extends IndexedDeclarationJourneyUpdateController with CurrencyConversionConnector {
 
   def onPageLoad(idx: Int): Action[AnyContent] = actionProvider.journeyAction.async { implicit request =>
-    request.declarationJourney.goodsEntries.entries.lift(idx - 1).fold(actionProvider.invalidRequestF) { goodsEntry =>
+    withValidGoodsEntry(idx, request.declarationJourney) { goodsEntry =>
       goodsEntry.maybeCategoryQuantityOfGoods.fold(actionProvider.invalidRequestF) { categoryQuantityOfGoods =>
         getCurrencies().map { currencyPeriod =>
           val preparedForm = goodsEntry.maybePurchaseDetails.fold(form)(p => form.fill(p.purchaseDetailsInput))
@@ -51,7 +51,7 @@ class PurchaseDetailsController @Inject()(
   }
 
   def onSubmit(idx: Int): Action[AnyContent] = actionProvider.journeyAction.async { implicit request =>
-    request.declarationJourney.goodsEntries.entries.lift(idx - 1).fold(actionProvider.invalidRequestF) { goodsEntry =>
+    withValidGoodsEntry(idx, request.declarationJourney) { goodsEntry =>
       goodsEntry.maybeCategoryQuantityOfGoods.fold(actionProvider.invalidRequestF) { categoryQuantityOfGoods =>
         getCurrencies().flatMap { currencyPeriod =>
           form

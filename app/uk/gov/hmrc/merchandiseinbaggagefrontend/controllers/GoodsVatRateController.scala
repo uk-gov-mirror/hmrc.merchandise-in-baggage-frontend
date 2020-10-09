@@ -39,18 +39,18 @@ class GoodsVatRateController @Inject()(
 
   val form: Form[GoodsVatRate] = formProvider()
 
-  def onPageLoad(idx: Int): Action[AnyContent] = actionProvider.journeyAction { implicit request =>
-    request.declarationJourney.goodsEntries.entries.lift(idx - 1).fold(actionProvider.invalidRequest) { goodsEntry =>
-      goodsEntry.maybeCategoryQuantityOfGoods.fold(actionProvider.invalidRequest) { categoryQuantityOfGoods =>
+  def onPageLoad(idx: Int): Action[AnyContent] = actionProvider.journeyAction.async { implicit request =>
+    withValidGoodsEntry(idx, request.declarationJourney) { goodsEntry =>
+      goodsEntry.maybeCategoryQuantityOfGoods.fold(actionProvider.invalidRequestF) { categoryQuantityOfGoods =>
         val preparedForm = goodsEntry.maybeGoodsVatRate.fold(form)(form.fill)
 
-        Ok(view(preparedForm, idx, categoryQuantityOfGoods.category))
+        Future.successful(Ok(view(preparedForm, idx, categoryQuantityOfGoods.category)))
       }
     }
   }
 
   def onSubmit(idx: Int): Action[AnyContent] = actionProvider.journeyAction.async { implicit request =>
-    request.declarationJourney.goodsEntries.entries.lift(idx - 1).fold(actionProvider.invalidRequestF) { goodsEntry =>
+    withValidGoodsEntry(idx, request.declarationJourney) { goodsEntry =>
       goodsEntry.maybeCategoryQuantityOfGoods.fold(actionProvider.invalidRequestF) { categoryQuantityOfGoods =>
         form
           .bindFromRequest()

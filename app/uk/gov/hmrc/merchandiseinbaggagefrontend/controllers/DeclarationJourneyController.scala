@@ -17,8 +17,11 @@
 package uk.gov.hmrc.merchandiseinbaggagefrontend.controllers
 
 import play.api.i18n.Messages
-import play.api.mvc.{Action, AnyContent, Request}
+import play.api.mvc.{Action, AnyContent, Request, Result}
+import uk.gov.hmrc.merchandiseinbaggagefrontend.model.core.{DeclarationJourney, GoodsEntry}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+
+import scala.concurrent.Future
 
 trait DeclarationJourneyController extends FrontendBaseController {
   implicit def messages(implicit request: Request[_]): Messages = controllerComponents.messagesApi.preferred(request)
@@ -34,6 +37,12 @@ trait IndexedDeclarationJourneyController extends FrontendBaseController {
   implicit def messages(implicit request: Request[_]): Messages = controllerComponents.messagesApi.preferred(request)
 
   def onPageLoad(idx: Int): Action[AnyContent]
+
+  def withValidGoodsEntry(idx: Int, declarationJourney: DeclarationJourney)(f: GoodsEntry => Future[Result]): Future[Result] =
+    declarationJourney.goodsEntries.entries.lift(idx - 1) match {
+      case Some(goodsEntry) => f(goodsEntry)
+      case None => Future.successful(Redirect(routes.InvalidRequestController.onPageLoad()))
+    }
 }
 
 trait IndexedDeclarationJourneyUpdateController extends IndexedDeclarationJourneyController {

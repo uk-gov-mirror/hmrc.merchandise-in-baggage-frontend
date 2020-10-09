@@ -39,16 +39,16 @@ class SearchGoodsController @Inject()(
 
   val form: Form[CategoryQuantityOfGoods] = formProvider()
 
-  def onPageLoad(idx: Int): Action[AnyContent] = actionProvider.journeyAction { implicit request =>
-    request.declarationJourney.goodsEntries.entries.lift(idx - 1).fold(actionProvider.invalidRequest) { goodsEntry =>
+  def onPageLoad(idx: Int): Action[AnyContent] = actionProvider.journeyAction.async { implicit request =>
+    withValidGoodsEntry(idx, request.declarationJourney) { goodsEntry =>
       val preparedForm = goodsEntry.maybeCategoryQuantityOfGoods.fold(form)(form.fill)
 
-      Ok(view(preparedForm, idx))
+      Future.successful(Ok(view(preparedForm, idx)))
     }
   }
 
   def onSubmit(idx: Int): Action[AnyContent] = actionProvider.journeyAction.async { implicit request =>
-    request.declarationJourney.goodsEntries.entries.lift(idx - 1).fold(actionProvider.invalidRequestF) { goodsEntry =>
+    withValidGoodsEntry(idx, request.declarationJourney) { goodsEntry =>
       form
         .bindFromRequest()
         .fold(
