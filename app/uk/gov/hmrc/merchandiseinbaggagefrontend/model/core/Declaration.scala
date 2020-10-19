@@ -146,6 +146,7 @@ object JourneyDetails {
 }
 
 case class DeclarationJourney(sessionId: SessionId,
+                              chargeReference: Option[ChargeReference] = None, //TODO not an option
                               maybeExciseOrRestrictedGoods: Option[Boolean] = None,
                               maybeGoodsDestination: Option[GoodsDestination] = None,
                               maybeValueWeightOfGoodsExceedsThreshold: Option[Boolean] = None,

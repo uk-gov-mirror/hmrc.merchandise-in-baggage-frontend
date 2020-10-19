@@ -25,18 +25,23 @@ import reactivemongo.api.indexes.Index
 import reactivemongo.api.indexes.IndexType.Ascending
 import uk.gov.hmrc.merchandiseinbaggagefrontend.model.core.DeclarationJourney.{format, id}
 import uk.gov.hmrc.merchandiseinbaggagefrontend.model.core.{DeclarationJourney, SessionId}
+import uk.gov.hmrc.merchandiseinbaggagefrontend.service.SequentialChargeReferenceService
 import uk.gov.hmrc.mongo.ReactiveRepository
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DeclarationJourneyRepository @Inject()(mongo: () => DB)
+class DeclarationJourneyRepository @Inject()(mongo: () => DB, chargeReferenceService: SequentialChargeReferenceService)
   extends ReactiveRepository[DeclarationJourney, String]("declarationJourney", mongo, format, implicitly[Format[String]]) {
 
   override def indexes: Seq[Index] = Seq(Index(Seq(id -> Ascending), Option("primaryKey"), unique = true))
 
-  def insert(declarationJourney: DeclarationJourney): Future[DeclarationJourney] =
-    super.insert(declarationJourney).map(_ => declarationJourney)
+    def insert(declarationJourney: DeclarationJourney): Future[DeclarationJourney] = {
+      for {
+        ref <- chargeReferenceService.nextChargeReference()
+        insert <- super.insert(declarationJourney.copy(chargeReference = Some(ref))).map(_ => declarationJourney)
+      } yield insert
+    }
 
   def findBySessionId(sessionId: SessionId): Future[Option[DeclarationJourney]] = {
     val query: (String, JsValueWrapper) = id -> JsString(sessionId.value)
