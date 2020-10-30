@@ -38,6 +38,9 @@ class CheckYourAnswersPage(implicit webDriver: WebDriver) extends PageWithCTA {
 
       textOfElementWithId(s"categoryLabel_$index") mustBe "Type of goods"
       textOfElementWithId(s"category_$index") mustBe goods.categoryQuantityOfGoods.category
+      textOfElementWithId(s"category_href_$index") mustBe "Changename" //TODO remove name
+      tagOfElementWithId(s"category_href_$index") mustBe "a"
+      hrefOfElementWithId(s"category_href_$index").last mustBe "goods-type-quantity?change=true" //TODO remove hard coded href
 
       textOfElementWithId(s"quantityLabel_$index") mustBe "Number of items"
       textOfElementWithId(s"quantity_$index") mustBe goods.categoryQuantityOfGoods.quantity

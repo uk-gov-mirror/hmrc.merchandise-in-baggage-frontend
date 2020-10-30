@@ -42,7 +42,7 @@
     <div class="govuk-summary-list__row">
      <dt id="@{s"categoryLabel_$index"}"  class="govuk-summary-list__key">@messages("checkYourAnswers.detailsOfTheGoods.category")</dt>
      <dd id="@{s"category_$index"}" class="govuk-summary-list__value" style="text-transform: capitalize">@goods.categoryQuantityOfGoods.category</dd>
-     <dd class="govuk-summary-list__actions"><a href="goods-type-quantity?change=true">Change<span class="govuk-visually-hidden">name</span></a></dd>
+     <dd class="govuk-summary-list__actions"><a id="@{s"category_href_$index"}" href="goods-type-quantity?change=true">Change<span class="govuk-visually-hidden">name</span></a></dd>
     </div>
     <div class="govuk-summary-list__row">
      <dt id="@{s"quantityLabel_$index"}" class="govuk-summary-list__key">@messages("checkYourAnswers.detailsOfTheGoods.quantity")</dt>
@@ -71,7 +71,7 @@
    <div class="govuk-summary-list__row">
      <dt id="taxDueLabel" class="govuk-summary-list__key">@messages("checkYourAnswers.detailsOfTheGoods.taxDue")</dt>
      <dd id="taxDueValue" class="govuk-summary-list__value" style="text-transform: capitalize">@totalTaxDue.formattedInPounds</dd>
-    <dd class="govuk-summary-list__actions"><a href="goods-type-quantity?change=true">Change<span class="govuk-visually-hidden">name</span></a></dd>
+     <dd class="govuk-summary-list__actions"><a href="goods-type-quantity?change=true">Change<span class="govuk-visually-hidden">name</span></a></dd>
    </div>
 
   <input id="@taxDue" type="hidden" name="@taxDue" value="@totalTaxDue.value">

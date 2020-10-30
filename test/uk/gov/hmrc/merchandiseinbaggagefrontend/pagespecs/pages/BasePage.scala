@@ -48,6 +48,11 @@ abstract class BasePage(implicit webDriver: WebDriver)
 
   def textOfElementWithId(id: String): String = find(IdQuery(id)).get.underlying.getText
 
+  def tagOfElementWithId(id: String): String = find(IdQuery(id)).get.underlying.getTagName
+
+  def hrefOfElementWithId(id: String) =
+    find(IdQuery(id)).get.underlying.getAttribute("href").split("/")
+
   def elementIsNotRenderedWithId(id: String): Assertion = find(IdQuery(id)).isEmpty mustBe true
 
   def patiently[A](assertionsMayTimeOut: => A): A = eventually(assertionsMayTimeOut).withClue {
