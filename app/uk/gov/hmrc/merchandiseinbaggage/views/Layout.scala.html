@@ -44,6 +44,7 @@
                             message= Some(messages("sessionExpired.message")),
                             keepAliveUrl= Some(s"${TimeOutController.onPageLoad.url}"),
                             signOutUrl= Some(s"${SessionExpiredController.onPageLoad.url}"),
+                            timeoutUrl= Some(s"${SessionExpiredController.onPageLoad.url}")
                             keepAliveButtonText= Some(messages("sessionExpired.keepAliveButtonText")),
                             signOutButtonText= Some(messages("sessionExpired.signOutButtonText")),
                             language= Some("en")
