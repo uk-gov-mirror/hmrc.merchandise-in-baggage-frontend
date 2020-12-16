@@ -22,12 +22,10 @@ import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.merchandiseinbaggage.config.AppConfig
 import uk.gov.hmrc.merchandiseinbaggage.views.html.TimeoutExitView
 
-import scala.concurrent.ExecutionContext
-
 @Singleton
 class ServiceTimeoutController @Inject()(override val controllerComponents: MessagesControllerComponents,
                                          view: TimeoutExitView
-                                        )(implicit ec: ExecutionContext, appConfig: AppConfig)
+                                        )(implicit appConfig: AppConfig)
   extends DeclarationJourneyController {
 
   override val onPageLoad: Action[AnyContent] = Action { implicit request =>

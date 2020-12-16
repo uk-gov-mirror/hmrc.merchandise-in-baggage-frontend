@@ -22,12 +22,9 @@ import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.merchandiseinbaggage.config.AppConfig
 import uk.gov.hmrc.merchandiseinbaggage.views.html.ProgressDeletedView
 
-import scala.concurrent.ExecutionContext
-
 class ProgressDeletedController @Inject()(override val controllerComponents: MessagesControllerComponents,
                                           view: ProgressDeletedView
-                                        )
-                                         (implicit ec: ExecutionContext, appConfig: AppConfig)
+                                        )(implicit appConfig: AppConfig)
   extends DeclarationJourneyController {
 
   override val onPageLoad: Action[AnyContent] = Action { implicit request =>

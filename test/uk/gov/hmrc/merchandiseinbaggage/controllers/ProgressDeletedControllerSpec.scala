@@ -22,8 +22,6 @@ import uk.gov.hmrc.merchandiseinbaggage.model.core.SessionId
 import uk.gov.hmrc.merchandiseinbaggage.repositories.DeclarationJourneyRepository
 import uk.gov.hmrc.merchandiseinbaggage.views.html.ProgressDeletedView
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
 class ProgressDeletedControllerSpec extends DeclarationJourneyControllerSpec with CoreTestData {
 
   val view = app.injector.instanceOf[ProgressDeletedView]
