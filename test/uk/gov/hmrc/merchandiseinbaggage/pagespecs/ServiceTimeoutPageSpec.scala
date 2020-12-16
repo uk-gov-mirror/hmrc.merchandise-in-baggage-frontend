@@ -31,6 +31,6 @@ class ServiceTimeoutPageSpec extends BasePageSpec[ServiceTimeoutPage] {
     page.textOfElementWithId("expiredGuidanceId") mustBe messages("timeOut.guidance")
     page.textOfElementWithId("expiredRestartId") mustBe messages("timeOut.restart.p")
     page.textOfElementWithId("expiredUlIdOne") mustBe messages("timeOut.Import.restart")
-    page.textOfElementWithId("expiredUlIdTwo") mustBe messages("taking commercial goods out of Great Britain")
+    page.textOfElementWithId("expiredUlIdTwo") mustBe messages("timeOut.Export.restart")
   }
 }
