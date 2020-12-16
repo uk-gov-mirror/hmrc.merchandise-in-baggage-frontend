@@ -26,12 +26,11 @@ import scala.concurrent.ExecutionContext
 
 @Singleton
 class ServiceTimeoutController @Inject()(override val controllerComponents: MessagesControllerComponents,
-                                         actionProvider: DeclarationJourneyActionProvider,
                                          view: TimeoutExitView
                                         )(implicit ec: ExecutionContext, appConfig: AppConfig)
   extends DeclarationJourneyController {
 
-  override val onPageLoad: Action[AnyContent] = actionProvider.journeyAction { implicit request =>
+  override val onPageLoad: Action[AnyContent] = Action { implicit request =>
     removeSession(request)(Ok(view()))
   }
 

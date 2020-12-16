@@ -17,21 +17,20 @@
 package uk.gov.hmrc.merchandiseinbaggage.pagespecs
 
 import com.softwaremill.macwire.wire
-import uk.gov.hmrc.merchandiseinbaggage.pagespecs.pages.SessionExpiredPage
-import uk.gov.hmrc.merchandiseinbaggage.pagespecs.pages.SessionExpiredPage.path
+import uk.gov.hmrc.merchandiseinbaggage.pagespecs.pages.ServiceTimeoutPage
+import uk.gov.hmrc.merchandiseinbaggage.pagespecs.pages.ServiceTimeoutPage.path
 
-class SessionExpiredPageSpec extends BasePageSpec[SessionExpiredPage] {
-  override lazy val page: SessionExpiredPage = wire[SessionExpiredPage]
+class ServiceTimeoutPageSpec extends BasePageSpec[ServiceTimeoutPage] {
+  override lazy val page: ServiceTimeoutPage = wire[ServiceTimeoutPage]
 
   "the session expired page render" in {
     open(path)
-    println(messageApi)
 
-    page.mustRenderBasicContent(path, messageApi("sessionExpired.title"))
-    page.headerText mustBe messages("sessionExpired.heading")
-    page.textOfElementWithId("expiredGuidanceId") mustBe messages("sessionExpired.guidance")
-    page.textOfElementWithId("expiredRestartId") mustBe messages("sessionExpired.restart.p")
-    page.textOfElementWithId("expiredUlIdOne") mustBe messages("sessionExpired.Import.restart")
+    page.mustRenderBasicContent(path, messageApi("timeOut.title"))
+    page.headerText mustBe messages("timeOut.heading")
+    page.textOfElementWithId("expiredGuidanceId") mustBe messages("timeOut.guidance")
+    page.textOfElementWithId("expiredRestartId") mustBe messages("timeOut.restart.p")
+    page.textOfElementWithId("expiredUlIdOne") mustBe messages("timeOut.Import.restart")
     page.textOfElementWithId("expiredUlIdTwo") mustBe messages("taking commercial goods out of Great Britain")
   }
 }
