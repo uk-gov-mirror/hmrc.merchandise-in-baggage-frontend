@@ -18,16 +18,15 @@ package uk.gov.hmrc.merchandiseinbaggage.controllers
 
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.MessagesControllerComponents
-import uk.gov.hmrc.merchandiseinbaggage.config.AppConfig
 import uk.gov.hmrc.merchandiseinbaggage.repositories.DeclarationJourneyRepository
 
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class TimeOutController @Inject()(override val controllerComponents: MessagesControllerComponents,
-                                  actionProvider: DeclarationJourneyActionProvider,
-                                  repo: DeclarationJourneyRepository,
-                               )(implicit ec: ExecutionContext, appConfig: AppConfig)
+class KeepAliveController @Inject()(override val controllerComponents: MessagesControllerComponents,
+                                    actionProvider: DeclarationJourneyActionProvider,
+                                    repo: DeclarationJourneyRepository,
+                                    )(implicit ec: ExecutionContext)
   extends DeclarationJourneyController {
 
   override val onPageLoad = actionProvider.journeyAction.async { implicit request =>

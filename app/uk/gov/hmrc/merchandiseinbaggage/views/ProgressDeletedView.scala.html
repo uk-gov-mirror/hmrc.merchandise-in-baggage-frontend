@@ -34,15 +34,15 @@
 @()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 
-@layout(pageTitle = Some(messages("sessionExpired.title")),  maybeBackButtonUrl = None, maybeDeclarationType = None, timeOut = false) {
+@layout(pageTitle = Some(messages("progressDeleted.title")),  maybeBackButtonUrl = None, maybeDeclarationType = None, timeOut = false) {
 
-    @h1(messages("sessionExpired.heading"))
+    @h1(messages("progressDeleted.heading"))
+    <br>
 
-    @p(Html(messages("sessionExpired.guidance")), Some("expiredGuidanceId"))
-    @p(Html(messages("sessionExpired.restart.p")), Some("expiredRestartId"))
+    @p(Html(messages("progressDeleted.restart.p")), Some("expiredRestartId"))
 
     <ul class="govuk-list govuk-list--bullet">
-        <li id="expiredUlIdOne">@link(StartImportController.onPageLoad().url, messages("sessionExpired.Import.restart"), true)</li>
-        <li id="expiredUlIdTwo">@link(StartExportController.onPageLoad().url, messages("sessionExpired.Export.restart"), true)</li>
+        <li id="expiredUlIdOne">@link(StartImportController.onPageLoad().url, messages("progressDeleted.Import.restart"), true)</li>
+        <li id="expiredUlIdTwo">@link(StartExportController.onPageLoad().url, messages("progressDeleted.Export.restart"), true)</li>
     </ul>
 }
