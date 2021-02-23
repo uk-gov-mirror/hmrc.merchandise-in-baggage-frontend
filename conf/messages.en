@@ -59,6 +59,14 @@ invalidRequest.Import.restart = bringing commercial goods into Great Britain
 invalidRequest.Export.restart = taking commercial goods out of Great Britain
 
 
+# DeclarationNotFound
+declarationNotFound.title = Are you bringing in goods from EU countries, non-EU countries or both?
+declarationNotFound.heading = Declaration not found
+declarationNotFound.li1 = We cannot find this declaration.
+declarationNotFound.li2 = If you typed the reference, check it is correct.
+declarationNotFound.li3 = If you pasted the reference, check you copied the entire reference.
+declarationNotFound.li4 = You can try again or make a new declaration.
+
 # ExciseAndRestrictedGoods
 exciseAndRestrictedGoods.Import.title = Are you bringing excise, controlled or restricted goods to Great Britain?
 exciseAndRestrictedGoods.Import.heading = Are you bringing excise, controlled or restricted goods to Great Britain?
