@@ -38,16 +38,16 @@ class Navigator {
 
 object Navigator {
 
-  def nextPage: Map[String, Call] = Map(
+  val nextPage: Map[String, Call] = Map(
     AgentDetailsController.onPageLoad().url -> EnterAgentAddressController.onPageLoad(),
     EnterEmailController.onPageLoad().url   -> JourneyDetailsController.onPageLoad()
   )
 
-  def nextPageWithAnswer: Map[String, YesNo => Call] = Map(
+  val nextPageWithAnswer: Map[String, YesNo => Call] = Map(
     CustomsAgentController.onPageLoad().url -> customsAgent
   )
 
-  def nextPageWithIndex: Map[String, (YesNo, JourneyType, Int) => Call] = Map(
+  val nextPageWithIndex: Map[String, (YesNo, JourneyType, Int) => Call] = Map(
     ExciseAndRestrictedGoodsController.onPageLoad().url -> exciseAndRestrictedGoods
   )
 
