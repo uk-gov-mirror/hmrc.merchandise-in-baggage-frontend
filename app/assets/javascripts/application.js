@@ -40,10 +40,24 @@ function initAutocompleteSelects() {
       searchText: ((o.dataset.search || "") + " " + o.text).toLowerCase()
     }));
     // Helper: find exact match by label or synonyms
-    const findMatch = text => options.find(o =>
-      o.label.toLowerCase() === text.toLowerCase().trim() ||
-      o.searchText.split(/\s+/).some(s => s === text.toLowerCase().trim())
-    );
+    const findMatch = text => {
+      const normalizedText = text.toLowerCase().trim();
+
+      // Prefer an exact canonical label match
+      const exactLabelMatch = options.find(o =>
+        o.label.toLowerCase() === normalizedText
+      );
+
+      if (exactLabelMatch) return exactLabelMatch;
+
+      // Otherwise match an exact synonym
+      return options.find(o =>
+        o.searchText
+          .split(",")
+          .map(s => s.trim())
+          .some(s => s === normalizedText)
+      );
+    };
     select.style.display = "none";           // hide the original <select>
     // Create container for autocomplete input
     const container = document.createElement("div");
