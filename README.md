@@ -34,12 +34,46 @@ To run unit tests, integration tests, scalafmt, coverage and check dependencies,
 
 To run the UI tests against a branch with changes made in this repo, follow the steps below:
 
-* Start all required services and stop this service by running the commands:
+1. Make sure you run all the dependant services through the service manager:
 
 ```shell
-sm2 --start MERCHANDISE_IN_BAGGAGE_ALL --appendArgs '{"PAYMENTS_PROCESSOR":["-Dmicroservice.services.merchandise-in-baggage.port=8280"]}'
-sm2 --stop MERCHANDISE_IN_BAGGAGE_FRONTEND
+> 'sm2 --start MERCHANDISE_IN_BAGGAGE_ALL --appendArgs '{"PAYMENTS_PROCESSOR":["-Dmicroservice.services.merchandise-in-baggage.port=8280"]}''
 ```
+2. Stop the frontend microservice from the service manager and run it locally:
+
+```shell
+> 'sm2 --stop MERCHANDISE_IN_BAGGAGE_FRONTEND'
+```
+```shell
+> 'sbt run'
+```
+
+3. For the card payment service to run successfully, ensure the Internal Auth service is running and that authentication tokens are enabled for both the Public and Admin journeys by executing the following command: 
+```
+   sm2 --start INTERNAL_AUTH INTERNAL_AUTH_FRONTEND --appendArgs '{"INTERNAL_AUTH": ["-Dapplication.router=testOnlyDoNotUseInAppConf.Routes"], "INTERNAL_AUTH_FRONTEND": ["-Dapplication.router=testOnlyDoNotUseInAppConf.Routes"]}'
+   ```
+
+   And then insert a token using:
+   ```
+   curl -X POST http://localhost:8470/test-only/token \
+      -H "Content-Type: application/json" \
+      -d '{
+        "token": "123456",
+        "principal": "card-payment-frontend",
+        "permissions": [
+          {
+            "resourceType": "card-payment",
+            "resourceLocation": "card-payment/*",
+            "actions": ["READ", "WRITE"]
+          }
+        ]
+      }'
+   ```
+   Start pay-frontend with the transitionary toggle off so all journey's go via card-payment-frontend:
+
+   ```
+   sm2 --start OPS_ACCEPTANCE --appendArgs '{"PAY_FRONTEND" : ["-Dfeature.percentage-of-users-to-go-use-soap=0"]}'
+   ```
 
 * Start this service locally with the correct flags by executing the script:
 
